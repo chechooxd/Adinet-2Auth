@@ -3,7 +3,7 @@ const nodemail = require('nodemailer');
 var DEFAULT_CODES = []
 const timeExpire = 5;
 
-const addCode = (config, user, email) => {
+const addCode = (config, from, user, email) => {
 
     let tranfer = nodemail.createTransport(config)
     let code = {
@@ -18,7 +18,7 @@ const addCode = (config, user, email) => {
     ]
 
     var message = {
-        from: "no-reply@adinet.cl",
+        from: from,
         to: email,
         subject: "Codigo de Autentificacion",
         html: `
@@ -35,7 +35,7 @@ const addCode = (config, user, email) => {
     };
 
     tranfer.sendMail(message, (err, info) => {
-        if (err) throw Error
+        if (err) console.error(err)
 
         console.log(info)
     })
